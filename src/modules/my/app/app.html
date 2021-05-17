@@ -1,0 +1,186 @@
+<template>
+    <!--Step 1-->
+    <div>
+     <template if:true={isStep1}>  
+	<div class="app">
+		<h1 class="">
+            <lightning-progress-indicator current-step="step1" type="path" variant="base">
+                <template for:each={steps} for:item="step">
+                   <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                </template>
+</lightning-progress-indicator>
+</h1>
+
+<div class="lgc-bg">
+    <div class="slds-box">
+        <h class=""><b>Company Information</b></h>
+
+        <lightning-input variant="label-inline" type="text" label="Company Name" value="Clovetrix" read-only></lightning-input>
+        <lightning-input variant="label-inline" type="text" label="Broker Name" value="Clovetrix Broker" read-only></lightning-input>
+        <lightning-input variant="label-inline" type="number" label="Broker Commission" value="123.45" formatter="currency" step="0.01" read-only></lightning-input>
+        <lightning-input variant="label-inline" type="date" label="Inception Date" value="2020-09-07" read-only></lightning-input>
+        <lightning-input variant="label-inline" type="date" label="Expiry Date" value="2021-09-07" read-only></lightning-input>
+        <lightning-input variant="label-inline" type="text" label="Company Type" value="Consultant" read-only></lightning-input>
+
+        <lightning-combobox name="Industry" label="Industry" value={value} options={industryOptions} variant="label-inline"></lightning-combobox>
+        <lightning-combobox name="Territory" label="Territory" value={value1} options={territoryOptions} variant="label-inline"></lightning-combobox>
+        </br>
+        <div class="slds-grid slds-gutters">
+            <p style="font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exposure Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <lightning-input type="checkbox" label="Asset Value"></lightning-input>
+            <lightning-input type="checkbox" label="Market Capitalization"></lightning-input>
+        </div>
+        </br>
+        <lightning-input variant="label-inline" type="number" label="Asset Value (USD)" formatter="currency"></lightning-input>
+        </br>
+
+        <h class=""><b>Rating Factors</b></h>
+        </br>
+        </br>
+        <lightning-input variant="label-inline" type="number" label="% of Assets within US" formatter="percent-fixed"></lightning-input>
+        <lightning-combobox name="Listing Territory" label="Listing Territory" value={valueLT} options={listingTerritoryOptions} variant="label-inline"></lightning-combobox>
+        <lightning-combobox name="Indstry Hazard Level" label="Indstry Hazard Level" value={valueHL} options={indstryHazardLevelOptions} variant="label-inline"></lightning-combobox>
+        <lightning-combobox name="Mapped Territory" label="Mapped Territory" value={valueMT} options={mappedTerritoryOptions} variant="label-inline"></lightning-combobox>
+        <lightning-combobox name="Litigation/Claims Within Past Year?" label="Litigation/Claims Within Past Year?" value={valueLC} options={yearOptions} variant="label-inline"></lightning-combobox>
+    </div>
+</div>
+
+
+<footer class="slds-modal__footer">
+    <button class="slds-button slds-button_brand" onclick={Step2} title="Next">Next</button>
+    <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+</footer>
+
+</div>
+</template>
+</div>
+
+<!--Step 2-->
+<div>
+    <template if:true={isStep2}>
+    <div class="app">
+		<h1 class="">
+            <lightning-progress-indicator current-step="step2" type="path" variant="base">
+                <template for:each={steps} for:item="step">
+                   <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                </template>
+    </lightning-progress-indicator>
+    </h1>
+
+    <div class="lgc-bg">
+        <div class="slds-box">
+            <h class=""><b>Exposure</b></h>
+            <div class="che">
+                <div class="slds-grid slds-gutters">
+                    <lightning-combobox name="Acquisition History" label="Acquisition History" value={valueAH} options={historyOptions} variant="label-inline"></lightning-combobox>
+                    <lightning-combobox name="Financial Health" label="Financial Health" value={valueFH} options={healthOptions} variant="label-inline"></lightning-combobox>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <lightning-combobox name="Stock Performance" label="Stock Performance" value={valueSP} options={stockOptions} variant="label-inline"></lightning-combobox>
+                    <lightning-combobox name="Time in Business" label="Time in Business" value={valueTime} options={timeOptions} variant="label-inline"></lightning-combobox>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <lightning-combobox name="Wording" label="Wording" value={valueWord} options={wordingOptions} variant="label-inline"></lightning-combobox>
+                    <lightning-input variant="label-inline" type="number" label="Corporate Governance score"></lightning-input>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input variant="label-inline" type="number" label="CREDIT (Augur) SCORE"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                    </div>
+                </div>
+                </br>
+                <lightning-button variant="brand" label="New Addhoc Factor" title="New Addhoc Factor" onclick={addFactor} class="slds-m-left_x-small"></lightning-button>
+                </br>
+                <template if:true={isFactor}>
+                    <div class="slds-box">
+                       <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                          <tbody>
+                             <template for:each={factorList} for:item="fac" for:index="index">
+                                <tr key={keyIndex}>
+                                   <th scope="col">
+                                         <lightning-input variant="label-hidden" placeholder="Enter description"  type = "text" access-key={index} id={index}></lightning-input>
+                                   </th>
+                                   <th scope="col">
+                                      <lightning-input variant="label-hidden" placeholder="Enter reason" type = "text"  access-key={index} id={index}></lightning-input>
+                                   </th>
+                                   <th scope="col">
+                                      <lightning-input variant="label-hidden" placeholder="Enter relativity" type = "text" access-key={index} id={index}></lightning-input>
+                                   </th>
+                                   <th scope="col">
+                                      <lightning-button label="Remove" class="slds-m-left_x-small" access-key={index} id={index} onclick={removeFactor}></lightning-button>
+                                   </th>
+                                </tr>
+                             </template>
+                </tbody>
+                </table>
+            </div>
+            </template>
+            </br>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input variant="label-inline" type="number" label="Deductible(USD)" formatter="currency"></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</br>
+</br>
+<footer class="slds-modal__footer">
+    <button class="slds-button slds-button_brand" onclick={Previous1} title="Previous">Previous</button>
+    <button class="slds-button slds-button_brand" onclick={Step3} title="Next">Next</button>
+    <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+</footer>
+</div>
+</template>
+</div>
+
+<!--Step 3-->
+<div>
+    <template if:true={isStep3}>
+        <div class="app">
+            <h1 class="">
+                <lightning-progress-indicator current-step="step3" type="path" variant="base">
+                    <template for:each={steps} for:item="step">
+                       <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                    </template>
+    </lightning-progress-indicator>
+    </h1>
+    <div class="lgc-bg">
+        <div class="slds-box">
+            <h class=""><b>Layers</b></h>
+            </br>
+            <div class="che1">
+                <lightning-combobox name="ILF Layer" label="ILF Layer" value={valueILF} options={iLFOptions} variant="label-inline"></lightning-combobox>
+                <lightning-input variant="label-inline" type="number" label="Limit(USD)" formatter="currency"></lightning-input>
+                <lightning-input variant="label-inline" type="number" label="Attachment(USD)" formatter="currency"></lightning-input>
+            </div>
+        </div>
+    </div>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+
+
+    <footer class="slds-modal__footer">
+        <button class="slds-button slds-button_brand" onclick={Previous2} title="Previous">Previous</button>
+        <button class="slds-button slds-button_brand" onclick={Finish} title="Finish">Finish</button>
+        <button class="slds-button slds-button_brand" onclick={closeModal} title="Cancel">Cancel</button>
+    </footer>
+</div>
+</template>
+</div>
+</template>
